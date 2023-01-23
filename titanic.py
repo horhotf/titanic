@@ -33,7 +33,7 @@ sns.pairplot(df_raw, hue='Survived')
 plt.title('Pairplot')
 plt.show()
 
-df_preproc = df_raw.drop(columns=['PassengerId','Name','Ticket'])
+df_preproc = df_raw.drop(columns=['PassengerId','Name','Ticket', 'Sex'])
 for col in ['Cabin','Embarked']:
     df_preproc[col] = df_preproc[col].astype(str)
 task.upload_artifact(name='data.preproc', artifact_object=df_preproc)
@@ -44,7 +44,7 @@ task.upload_artifact(name='data.train', artifact_object=train)
 task.upload_artifact(name='data.test', artifact_object=test)
 
 # Обучим простую модель:
-X_train = train.drop(columns=['Survived'])
+X_train = train.drop(columns=['Survived', 'Sex'])
 y_train = train['Survived']
 
 model = CatBoostClassifier(silent=True)
@@ -58,7 +58,7 @@ param_grid = {
 }
 
 # Формируем датасет для тестирования
-X_test = test.drop(columns=['Survived'])
+X_test = test.drop(columns=['Survived', 'Sex'])
 y_test = test['Survived']
 
 # Инциируем объект логирования

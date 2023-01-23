@@ -29,8 +29,8 @@ def check_task_status(task_id, timeout=600):
             elif task_status == 'in_progress':
                 # Try to get the first iteration metric
                 if task.get_last_iteration() > 0:
-                    task.mark_stopped()
-                    task.set_archived(True)
+                    # task.mark_stopped()
+                    # task.set_archived(True)
                     return True
             time.sleep(5)
         raise ValueError('Triggered Timeout!')

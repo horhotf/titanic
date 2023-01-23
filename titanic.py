@@ -7,6 +7,8 @@ from sklearn.model_selection import train_test_split, ParameterSampler
 from catboost import CatBoostClassifier, Pool
 from sklearn.metrics import roc_auc_score 
 
+#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
+
 
 task = Task.init(
     project_name='ClearML_Titanic_1', 
@@ -26,13 +28,13 @@ task.upload_artifact(
     name='eda.describe.number', 
     artifact_object=df_raw.describe(include=np.number))
 
-# Усложним наш EDA. Попрбуем построить графики:
+# Усложним наш EDA. Попрбуем построить графики
 sns.pairplot(df_raw, hue='Survived')
 plt.title('Pairplot')
 plt.show()
 
-df_preproc = df_raw.drop(columns=['PassengerId','Name','Ticket'])
-for col in ['Sex','Cabin','Embarked']:
+df_preproc = df_raw.drop(columns=['PassengerId','Name','Ticket', 'Sex'])
+for col in ['Cabin','Embarked']:
     df_preproc[col] = df_preproc[col].astype(str)
 task.upload_artifact(name='data.preproc', artifact_object=df_preproc)
 
@@ -46,9 +48,9 @@ X_train = train.drop(columns=['Survived'])
 y_train = train['Survived']
 
 model = CatBoostClassifier(silent=True)
-model.fit(X_train, y_train, cat_features=['Sex','Cabin','Embarked'])
+model.fit(X_train, y_train, cat_features=['Cabin','Embarked'])
 
-# Сетка для перебора гиперпараметров
+#Сетка для перебора гиперпараметров
 param_grid = {
     'depth': [4,5,6,7,8],
     'learning_rate': [0.1,0.05,0.01,0.005,0.001],
@@ -71,17 +73,17 @@ i = 0
 for param in ParameterSampler(param_grid, n_iter=50, random_state=42):
     # Обучаем модель
     model = CatBoostClassifier(**param, silent=True)
-    model.fit(X_train, y_train, cat_features=['Sex','Cabin','Embarked'])
+    model.fit(X_train, y_train, cat_features=['Cabin','Embarked'])
 
     # Оцениваем модель
     test_scores = model.eval_metrics(
-        data=Pool(X_test, y_test, cat_features=['Sex','Cabin','Embarked']),
+        data=Pool(X_test, y_test, cat_features=['Cabin','Embarked']),
         metrics=['Logloss','AUC'])
     test_logloss  = round(test_scores['Logloss'][-1], 4)
     test_roc_auc = round(test_scores['AUC'][-1]*100, 1)
     
     train_scores = model.eval_metrics(
-        data=Pool(X_train, y_train, cat_features=['Sex','Cabin','Embarked']),
+        data=Pool(X_train, y_train, cat_features=['Cabin','Embarked']),
         metrics=['Logloss','AUC'])
     train_logloss  = round(train_scores['Logloss'][-1], 4)
     train_roc_auc = round(train_scores['AUC'][-1]*100, 1)

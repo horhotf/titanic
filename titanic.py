@@ -26,7 +26,7 @@ task.upload_artifact(
     name='eda.describe.number', 
     artifact_object=df_raw.describe(include=np.number))
 
-#Усложним наш EDA. Попрбуем построить графики:
+# Усложним наш EDA. Попрбуем построить графики:
 sns.pairplot(df_raw, hue='Survived')
 plt.title('Pairplot')
 plt.show()

@@ -29,9 +29,9 @@ task.upload_artifact(
     artifact_object=df_raw.describe(include=np.number))
 
 # Усложним наш EDA. Попрбуем построить графики
-sns.pairplot(df_raw, hue='Survived')
-plt.title('Pairplot')
-plt.show()
+# sns.pairplot(df_raw, hue='Survived')
+# plt.title('Pairplot')
+# plt.show()
 
 df_preproc = df_raw.drop(columns=['PassengerId','Name','Ticket', 'Sex'])
 for col in ['Cabin','Embarked']:

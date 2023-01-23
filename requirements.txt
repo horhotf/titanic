@@ -5,3 +5,4 @@ seaborn
 matplotlib
 sklearn
 catboost
+sklearn

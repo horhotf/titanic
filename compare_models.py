@@ -16,7 +16,7 @@ def compare_and_tag_task(commit_hash):
             current_task.get_reported_scalars().get('Logloss').get('Test').get('y')
         )
         print(f"Best metric in the system is: {best_metric} and current metric is {current_metric}")
-        if current_metric >= best_metric:
+        if current_metric <= best_metric:
             print("This means current metric is better or equal! Tagging as such.")
             current_task.add_tags(['Best Performance'])
         else:

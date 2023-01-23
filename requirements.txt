@@ -3,6 +3,5 @@ numpy
 clearml
 seaborn
 matplotlib
-sklearn
 catboost
-sklearn
+scikit-learn

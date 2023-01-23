@@ -50,7 +50,7 @@ y_train = train['Survived']
 model = CatBoostClassifier(silent=True)
 model.fit(X_train, y_train, cat_features=['Cabin','Embarked'])
 
-# Сетка для перебора гиперпараметров
+#Сетка для перебора гиперпараметров
 param_grid = {
     'depth': [4,5,6,7,8],
     'learning_rate': [0.1,0.05,0.01,0.005,0.001],

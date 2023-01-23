@@ -44,7 +44,7 @@ task.upload_artifact(name='data.train', artifact_object=train)
 task.upload_artifact(name='data.test', artifact_object=test)
 
 # Обучим простую модель:
-X_train = train.drop(columns=['Survived', 'Sex'])
+X_train = train.drop(columns=['Survived'])
 y_train = train['Survived']
 
 model = CatBoostClassifier(silent=True)
@@ -58,7 +58,7 @@ param_grid = {
 }
 
 # Формируем датасет для тестирования
-X_test = test.drop(columns=['Survived', 'Sex'])
+X_test = test.drop(columns=['Survived'])
 y_test = test['Survived']
 
 # Инциируем объект логирования
